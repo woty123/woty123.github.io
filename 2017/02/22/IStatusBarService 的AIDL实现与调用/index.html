@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android,StatusBar,AIDL," />
 
 
 
@@ -84,12 +84,40 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Shell的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="IStatusBarService 的AIDL实现与调用
+IStatusBarService.aidl文件路经：
+
+/frameworks/base/core/java/com/android/internal/statusbar/IStatusBarService.aidl
+
+
+定义的aidl文件会在编译的时候生成IStatusBarService.java文件，生成的路经：
+
+out/targ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IStatusBarService 的AIDL实现与调用">
+<meta property="og:url" content="http://yoursite.com/2017/02/22/IStatusBarService 的AIDL实现与调用/index.html">
 <meta property="og:site_name" content="Shell的博客">
+<meta property="og:description" content="IStatusBarService 的AIDL实现与调用
+IStatusBarService.aidl文件路经：
+
+/frameworks/base/core/java/com/android/internal/statusbar/IStatusBarService.aidl
+
+
+定义的aidl文件会在编译的时候生成IStatusBarService.java文件，生成的路经：
+
+out/targ">
+<meta property="og:updated_time" content="2017-02-22T08:39:52.943Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shell的博客">
+<meta name="twitter:title" content="IStatusBarService 的AIDL实现与调用">
+<meta name="twitter:description" content="IStatusBarService 的AIDL实现与调用
+IStatusBarService.aidl文件路经：
+
+/frameworks/base/core/java/com/android/internal/statusbar/IStatusBarService.aidl
+
+
+定义的aidl文件会在编译的时候生成IStatusBarService.java文件，生成的路经：
+
+out/targ">
 
 
 
@@ -117,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/22/IStatusBarService 的AIDL实现与调用/"/>
 
 
 
 
 
-  <title> Shell的博客 </title>
+  <title> IStatusBarService 的AIDL实现与调用 | Shell的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -144,9 +172,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -235,9 +261,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -270,10 +296,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/02/22/IStatusBarService 的AIDL实现与调用/" itemprop="url">
-                  IStatusBarService 的AIDL实现与调用
-                </a>
+                IStatusBarService 的AIDL实现与调用
               
             
           </h1>
@@ -340,9 +363,7 @@
       
 
       
-        
-          
-            <h1 id="IStatusBarService-的AIDL实现与调用"><a href="#IStatusBarService-的AIDL实现与调用" class="headerlink" title="IStatusBarService 的AIDL实现与调用"></a>IStatusBarService 的AIDL实现与调用</h1><ul>
+        <h1 id="IStatusBarService-的AIDL实现与调用"><a href="#IStatusBarService-的AIDL实现与调用" class="headerlink" title="IStatusBarService 的AIDL实现与调用"></a>IStatusBarService 的AIDL实现与调用</h1><ul>
 <li><p><code>IStatusBarService.aidl</code>文件路经：</p>
 <blockquote>
 <p>/frameworks/base/core/java/com/android/internal/statusbar/IStatusBarService.aidl</p>
@@ -369,204 +390,66 @@
 </ul>
 <p><strong> 最后附上IStatusBar.aidl与 IStatusBarService.aidl的定义</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// IStatusBarService.aidl</span></div><div class="line"><span class="comment">/** <span class="doctag">@hide</span> */</span></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IStatusBarService</span></span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">expandNotificationsPanel</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">collapsePanels</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">disable</span><span class="params">(<span class="keyword">int</span> what, IBinder token, String pkg)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setIcon</span><span class="params">(String slot, String iconPackage, <span class="keyword">int</span> iconId, <span class="keyword">int</span> iconLevel, String contentDescription)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setIconVisibility</span><span class="params">(String slot, <span class="keyword">boolean</span> visible)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">removeIcon</span><span class="params">(String slot)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">topAppWindowChanged</span><span class="params">(<span class="keyword">boolean</span> menuVisible)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setImeWindowStatus</span><span class="params">(in IBinder token, <span class="keyword">int</span> vis, <span class="keyword">int</span> backDisposition)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">expandSettingsPanel</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setCurrentUser</span><span class="params">(<span class="keyword">int</span> newUserId)</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">// ---- Methods below are for use by the status bar policy services ----</span></div><div class="line">    <span class="comment">// You need the STATUS_BAR_SERVICE permission</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">registerStatusBar</span><span class="params">(IStatusBar callbacks, out StatusBarIconList iconList,</span></span></div><div class="line">            out List&lt;IBinder&gt; notificationKeys, out List&lt;StatusBarNotification&gt; notifications,</div><div class="line">            out <span class="keyword">int</span>[] switches, out List&lt;IBinder&gt; binders);</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onPanelRevealed</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onNotificationClick</span><span class="params">(String pkg, String tag, <span class="keyword">int</span> id)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onNotificationError</span><span class="params">(String pkg, String tag, <span class="keyword">int</span> id,</span></span></div><div class="line">            <span class="keyword">int</span> uid, <span class="keyword">int</span> initialPid, String message);</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onClearAllNotifications</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onNotificationClear</span><span class="params">(String pkg, String tag, <span class="keyword">int</span> id)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSystemUiVisibility</span><span class="params">(<span class="keyword">int</span> vis, <span class="keyword">int</span> mask)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setHardKeyboardEnabled</span><span class="params">(<span class="keyword">boolean</span> enabled)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">toggleMenu</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">toggleRecentApps</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">preloadRecentApps</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">cancelPreloadRecentApps</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setWindowState</span><span class="params">(<span class="keyword">int</span> window, <span class="keyword">int</span> state)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// IStatusBar.aidl</span></div><div class="line"><span class="comment">/** <span class="doctag">@hide</span> */</span></div><div class="line">oneway <span class="class"><span class="keyword">interface</span> <span class="title">IStatusBar</span></span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setIcon</span><span class="params">(<span class="keyword">int</span> index, in StatusBarIcon icon)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">removeIcon</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addNotification</span><span class="params">(IBinder key, in StatusBarNotification notification)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updateNotification</span><span class="params">(IBinder key, in StatusBarNotification notification)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">removeNotification</span><span class="params">(IBinder key)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">disable</span><span class="params">(<span class="keyword">int</span> state)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">animateExpandNotificationsPanel</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">animateExpandSettingsPanel</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">animateCollapsePanels</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSystemUiVisibility</span><span class="params">(<span class="keyword">int</span> vis, <span class="keyword">int</span> mask)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">topAppWindowChanged</span><span class="params">(<span class="keyword">boolean</span> menuVisible)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setImeWindowStatus</span><span class="params">(in IBinder token, <span class="keyword">int</span> vis, <span class="keyword">int</span> backDisposition)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setHardKeyboardStatus</span><span class="params">(<span class="keyword">boolean</span> available, <span class="keyword">boolean</span> enabled)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">toggleRecentApps</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">preloadRecentApps</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">cancelPreloadRecentApps</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setWindowState</span><span class="params">(<span class="keyword">int</span> window, <span class="keyword">int</span> state)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/Android App Switch切换流程/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Shell">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Shell的博客">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Shell的博客" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/20/Android App Switch切换流程/" itemprop="url">
-                  Android App Switch切换流程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-20T14:49:00+08:00">
-                2017-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/2017/" itemprop="url" rel="index">
-                    <span itemprop="name">2017</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/Android/" rel="tag"># Android</a>
           
-
+            <a href="/tags/StatusBar/" rel="tag"># StatusBar</a>
           
-            
+            <a href="/tags/AIDL/" rel="tag"># AIDL</a>
           
-
-          
-
-          
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="Android-App-Switch切换流程"><a href="#Android-App-Switch切换流程" class="headerlink" title="Android App Switch切换流程"></a>Android App Switch切换流程</h1><ul>
-<li>1.按下多任务键的响应过程，inputread在读取到有keyboard事件上报后调用过程，从下至上。<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">inputReader.cpp    KeyboardInputMapper::processKey()  getDispatcher()-&gt;notifyKey</div><div class="line">      inputDispacher.cpp    InputDispatcher::notifyKey()  mPolicy-&gt;interceptKeyBeforeQueueing</div><div class="line">      com_android_server_inputManager.cpp        NativeInputManager::interceptKeyBeforeQueueing()</div><div class="line">      env-&gt;CallIntMethod(mCallbacksObj,gCallbacksClassInfo.interceptKeyBeforeQueueing,when, action, flags, keyCode, scanCode, policyFlags, isScreenOn);</div><div class="line">      <span class="comment">//此处gCallbacksClassInfo中的各种方法就是InputManager的对应的方法，在JNI初始化的时候就注册了，详情请参看register_android_server_InputManager函数，通过jniRegisterNativeMethods将inputmanager的各种callback注册到gCallbacksClassInfo中。</span></div><div class="line">      返回的wmaction就是后面WM对此次按键事件的policy，通过此返回值，此处会决定下一步的动作。</div><div class="line">      InputManager.<span class="function">java   <span class="title">interceptKeyBeforeQueueing</span><span class="params">()</span>  mWindowManagerService.mInputMonitor.<span class="title">interceptKeyBeforeQueueing</span><span class="params">()</span></span></div><div class="line">      WindowmanagerService.java     InputMonitor::<span class="title">interceptKeyBeforeQueueing</span><span class="params">()</span>  mPolicy.<span class="title">interceptKeyBeforeQueueing</span><span class="params">()</span></div><div class="line">      PhonewindowManager.java       <span class="title">interceptKeyBeforeQueueing</span><span class="params">()</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<ul>
-<li>关于事件输入系统(Input System)的详细流程，参考<a href="http://blog.csdn.net/jinzhuojun/article/details/41909159" target="_blank" rel="external">Android事件输入系统</a></li>
-<li><p>另外深入学习<a href="http://blog.csdn.net/u011913612/article/category/6508253" target="_blank" rel="external">Android输入事件从读取到分发</a></p>
-</li>
-<li><p>2.我们直接看到PhonewindowManager.java中的<code>interceptKeyBeforeQueueing()</code>及<code>interceptKeyBeforeDispatching()</code>方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">interceptKeyBeforeQueueing()</div><div class="line">      <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_HOME) &#123;</div><div class="line">      	......</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_APP_SWITCH) &#123;</div><div class="line">          <span class="keyword">if</span> (!keyguardOn) &#123; <span class="comment">// 没有锁屏</span></div><div class="line">              <span class="keyword">if</span> (down &amp;&amp; repeatCount == <span class="number">0</span>) &#123;</div><div class="line">                  preloadRecentApps();  <span class="comment">//预加载最近App</span></div><div class="line">              &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!down) &#123;</div><div class="line">                  toggleRecentApps();   <span class="comment">//打开最近App</span></div><div class="line">              &#125;</div><div class="line">          &#125;</div><div class="line">          <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>3.上面两个方法最终调用的是StatusBarManagerService中的<code>preloadRecentApps()</code>及<code>toggleRecentApps()</code>方法，而在StatusBarManagerService中的调用代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ================================================================================</span></div><div class="line"><span class="comment">// Callbacks from the status bar service.注册StatusBar服务</span></div><div class="line"><span class="comment">// ================================================================================</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerStatusBar</span><span class="params">(IStatusBar bar, StatusBarIconList iconList,</span></span></div><div class="line">        List&lt;IBinder&gt; notificationKeys, List&lt;StatusBarNotification&gt; notifications,</div><div class="line">        <span class="keyword">int</span> switches[], List&lt;IBinder&gt; binders) &#123;</div><div class="line">    enforceStatusBarService();</div><div class="line"></div><div class="line">    Slog.i(TAG, <span class="string">"registerStatusBar bar="</span> + bar);</div><div class="line">    mBar = bar;</div><div class="line">    ......</div><div class="line">&#125;</div><div class="line"><span class="comment">// 调用方法</span></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">toggleRecentApps</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mBar != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            mBar.toggleRecentApps();</div><div class="line">        &#125; <span class="keyword">catch</span> (RemoteException ex) &#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preloadRecentApps</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mBar != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            mBar.preloadRecentApps();</div><div class="line">        &#125; <span class="keyword">catch</span> (RemoteException ex) &#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="SystemUI调用"><a href="#SystemUI调用" class="headerlink" title="SystemUI调用"></a>SystemUI调用</h3><ul>
-<li><p>4.以上可以看到这两个方法实际是通过引用mBar来调用，而这个mBar是在哪里注册，又是什么时候注册的呢？进一步跟踪发现它的<code>registerStatusBar()</code>方法是在SystemUI的BaseStatusBar.java的start()方法中发生的，关键代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 获取StatusBarManagerService服务</span></div><div class="line">mBarService = IStatusBarService.Stub.asInterface(</div><div class="line">        ServiceManager.getService(Context.STATUS_BAR_SERVICE));</div><div class="line"></div><div class="line">mRecents = getComponent(RecentsComponent.class);</div><div class="line"></div><div class="line">mLocale = mContext.getResources().getConfiguration().locale;</div><div class="line">mLayoutDirection = TextUtils.getLayoutDirectionFromLocale(mLocale);</div><div class="line"></div><div class="line"><span class="comment">// Connect in to the status bar manager service</span></div><div class="line">StatusBarIconList iconList = <span class="keyword">new</span> StatusBarIconList();</div><div class="line">ArrayList&lt;IBinder&gt; notificationKeys = <span class="keyword">new</span> ArrayList&lt;IBinder&gt;();</div><div class="line">ArrayList&lt;StatusBarNotification&gt; notifications = <span class="keyword">new</span> ArrayList&lt;StatusBarNotification&gt;();</div><div class="line">mCommandQueue = <span class="keyword">new</span> CommandQueue(<span class="keyword">this</span>, iconList);</div><div class="line"></div><div class="line"><span class="keyword">int</span>[] switches = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">7</span>];</div><div class="line">ArrayList&lt;IBinder&gt; binders = <span class="keyword">new</span> ArrayList&lt;IBinder&gt;();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">	<span class="comment">// 注册StatusBar</span></div><div class="line">    mBarService.registerStatusBar(mCommandQueue, iconList, notificationKeys, notifications,</div><div class="line">            switches, binders);</div><div class="line">&#125; <span class="keyword">catch</span> (RemoteException ex) &#123;</div><div class="line">    <span class="comment">// If the system process isn't there we're doomed anyway.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>5.而BaseStatusBar是一个抽象类，它的实际实现是PhoneStatusBar.java,至于PhoneStatusBar是如何创建的，参考我写的另一篇文件PhoneStatusBar的创建过程，PhoneStatusBar创建完成后会调用start()方法，这样就将StatusBar注册到StatusBarManagerService中去。</p>
-</li>
-<li><p>6.这样调用preloadRecentApps()实际调用的是PhoneStatusBar中的方法，具体实现在它的父类BaseStatusBar中，关键代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> H mHandler = createHandler();</div><div class="line">      <span class="comment">// mHandler的定义</span></div><div class="line">      <span class="keyword">protected</span> <span class="class"><span class="keyword">class</span> <span class="title">H</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message m)</span> </span>&#123;</div><div class="line">              Intent intent;</div><div class="line">              <span class="keyword">switch</span> (m.what) &#123;</div><div class="line">               <span class="keyword">case</span> MSG_TOGGLE_RECENTS_PANEL:</div><div class="line">                   toggleRecentsActivity();</div><div class="line">                   <span class="keyword">break</span>;</div><div class="line">               <span class="keyword">case</span> MSG_CLOSE_RECENTS_PANEL:</div><div class="line">                   closeRecents();</div><div class="line">                   <span class="keyword">break</span>;</div><div class="line">               <span class="keyword">case</span> MSG_PRELOAD_RECENT_APPS:</div><div class="line">                    preloadRecentTasksList();</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">               <span class="keyword">case</span> MSG_CANCEL_PRELOAD_RECENT_APPS:</div><div class="line">                    cancelPreloadingRecentTasksList();</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                    ......</div><div class="line">             &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">toggleRecentApps</span><span class="params">()</span> </span>&#123;</div><div class="line">          <span class="keyword">int</span> msg = MSG_TOGGLE_RECENTS_PANEL;</div><div class="line">          mHandler.removeMessages(msg);</div><div class="line">          mHandler.sendEmptyMessage(msg);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preloadRecentApps</span><span class="params">()</span> </span>&#123;</div><div class="line">          <span class="keyword">int</span> msg = MSG_PRELOAD_RECENT_APPS;</div><div class="line">          mHandler.removeMessages(msg);</div><div class="line">          mHandler.sendEmptyMessage(msg);</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>7.在BaseStatusBar中调用这些方法，实际是通过mRecents来调用的，而mRecents是Recents的实例，因此实际调用是在Recents中，它的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preloadRecentTasksList</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (DEBUG) Log.d(TAG, <span class="string">"preloading recents"</span>);</div><div class="line">    Intent intent = <span class="keyword">new</span> Intent(RecentsActivity.PRELOAD_INTENT);</div><div class="line">    intent.setClassName(<span class="string">"com.android.systemui"</span>,</div><div class="line">            <span class="string">"com.android.systemui.recent.RecentsPreloadReceiver"</span>);</div><div class="line">    mContext.sendBroadcastAsUser(intent, <span class="keyword">new</span> UserHandle(UserHandle.USER_CURRENT));</div><div class="line"></div><div class="line">    RecentTasksLoader.getInstance(mContext).preloadFirstTask();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelPreloadingRecentTasksList</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (DEBUG) Log.d(TAG, <span class="string">"cancel preloading recents"</span>);</div><div class="line">    Intent intent = <span class="keyword">new</span> Intent(RecentsActivity.CANCEL_PRELOAD_INTENT);</div><div class="line">    intent.setClassName(<span class="string">"com.android.systemui"</span>,</div><div class="line">            <span class="string">"com.android.systemui.recent.RecentsPreloadReceiver"</span>);</div><div class="line">    mContext.sendBroadcastAsUser(intent, <span class="keyword">new</span> UserHandle(UserHandle.USER_CURRENT));</div><div class="line"></div><div class="line">    RecentTasksLoader.getInstance(mContext).cancelPreloadingFirstTask();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">closeRecents</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (DEBUG) Log.d(TAG, <span class="string">"closing recents panel"</span>);</div><div class="line">    Intent intent = <span class="keyword">new</span> Intent(RecentsActivity.CLOSE_RECENTS_INTENT);</div><div class="line">    intent.setPackage(<span class="string">"com.android.systemui"</span>);</div><div class="line">    mContext.sendBroadcastAsUser(intent, <span class="keyword">new</span> UserHandle(UserHandle.USER_CURRENT));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>8.到这里，最终调用的RecentTasksLoader去<code>preloadFirstTask()</code></p>
-</li>
-<li><p>9.接下来，具体加载及打开过程就比较好分析了</p>
-</li>
-</ul>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/20/Android App Switch切换流程/" rel="next" title="Android App Switch切换流程">
+                <i class="fa fa-chevron-left"></i> Android App Switch切换流程
+              </a>
+            
+          </div>
 
-          
-        
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -574,6 +457,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -593,8 +480,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -647,6 +543,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IStatusBarService-的AIDL实现与调用"><span class="nav-number">1.</span> <span class="nav-text">IStatusBarService 的AIDL实现与调用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -752,6 +664,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
