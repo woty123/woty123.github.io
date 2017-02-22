@@ -1,0 +1,791 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,PhoneStatusBar,SystemUI," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="PhoneStatusBar的实例创建流程 在解析App Switch切换流程的过程中，发现其中有用到PhoneStatusBar，很好奇它是怎么出来，于是跟踪了一下，发现它的出生过程还有点复杂（没搞明白为什么要这样做），下面就记录一下： 
+
+1.当Kernel启动完成后，从init.rc中读取命令，这其中就有启动系统的核心服务SystemServer，在SystemServer中，首先会启动系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PhoneStatusBar的创建流程">
+<meta property="og:url" content="http://yoursite.com/2017/02/22/PhoneStatusBar的创建流程/index.html">
+<meta property="og:site_name" content="Shell的博客">
+<meta property="og:description" content="PhoneStatusBar的实例创建流程 在解析App Switch切换流程的过程中，发现其中有用到PhoneStatusBar，很好奇它是怎么出来，于是跟踪了一下，发现它的出生过程还有点复杂（没搞明白为什么要这样做），下面就记录一下： 
+
+1.当Kernel启动完成后，从init.rc中读取命令，这其中就有启动系统的核心服务SystemServer，在SystemServer中，首先会启动系统">
+<meta property="og:updated_time" content="2017-02-22T08:46:43.603Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PhoneStatusBar的创建流程">
+<meta name="twitter:description" content="PhoneStatusBar的实例创建流程 在解析App Switch切换流程的过程中，发现其中有用到PhoneStatusBar，很好奇它是怎么出来，于是跟踪了一下，发现它的出生过程还有点复杂（没搞明白为什么要这样做），下面就记录一下： 
+
+1.当Kernel启动完成后，从init.rc中读取命令，这其中就有启动系统的核心服务SystemServer，在SystemServer中，首先会启动系统">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/22/PhoneStatusBar的创建流程/"/>
+
+
+
+
+
+  <title> PhoneStatusBar的创建流程 | Shell的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Shell的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/PhoneStatusBar的创建流程/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Shell">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Shell的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Shell的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                PhoneStatusBar的创建流程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-22T16:46:00+08:00">
+                2017-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/2017/" itemprop="url" rel="index">
+                    <span itemprop="name">2017</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="PhoneStatusBar的实例创建流程"><a href="#PhoneStatusBar的实例创建流程" class="headerlink" title="PhoneStatusBar的实例创建流程"></a>PhoneStatusBar的实例创建流程</h1><p><strong> 在解析App Switch切换流程的过程中，发现其中有用到PhoneStatusBar，很好奇它是怎么出来，于是跟踪了一下，发现它的出生过程还有点复杂（没搞明白为什么要这样做），下面就记录一下： </strong></p>
+<ul>
+<li><p>1.当Kernel启动完成后，从init.rc中读取命令，这其中就有启动系统的核心服务SystemServer，在SystemServer中，首先会启动系统管理的重要服务，例如PowerManagerService、WifiService、DisplayManagerService等等。当这些服务启动后，将会启动SystemUI，关键代码：</p>
+<pre><code>// We now tell the activity manager it is okay to run third party
+// code.  It will call back into us once it has gotten to the state
+// where third party code can really run (but before it has actually
+// started launching the initial applications), for us to complete our
+// initialization.
+ActivityManagerService.self().systemReady(new Runnable() {
+    public void run() {
+        Slog.i(TAG, &quot;Making services ready&quot;);
+        if ( instabootServiceF == null || !instabootServiceF.isEnable()) {
+            try {
+                ActivityManagerService.self().startObservingNativeCrashes();
+            } catch (Throwable e) {
+                reportWtf(&quot;observing native crashes&quot;, e);
+            }
+        }
+
+        if (!headless) {
+            // 启动SystemUI
+            startSystemUi(contextF);
+        }
+        try {
+            if (mountServiceF != null) mountServiceF.systemReady();
+        } catch (Throwable e) {
+            reportWtf(&quot;making Mount Service ready&quot;, e);
+        }
+        ......
+}
+// 启动SystemUI
+static final void startSystemUi(Context context) {
+    Intent intent = new Intent();
+    intent.setComponent(new ComponentName(&quot;com.android.systemui&quot;,
+                &quot;com.android.systemui.SystemUIService&quot;));
+    //Slog.d(TAG, &quot;Starting service: &quot; + intent);
+    context.startServiceAsUser(intent, UserHandle.OWNER);
+}
+</code></pre></li>
+<li><p>2.启动SystemUIService服务，在SystemUIService的<code>OnCreate()</code>方法中，创建实例：</p>
+<pre><code>/**
+ * The classes of the stuff to start.
+ */
+private final Class&lt;?&gt;[] SERVICES = new Class[] {
+        com.android.systemui.recent.Recents.class,
+        // SystemBars的全类名
+        com.android.systemui.statusbar.SystemBars.class,
+        com.android.systemui.usb.StorageNotification.class,
+        com.android.systemui.power.PowerUI.class,
+        com.android.systemui.media.RingtonePlayer.class,
+        com.android.systemui.settings.SettingsUI.class,
+    };
+
+/**
+ * Hold a reference on the stuff we start.
+ */
+private final SystemUI[] mServices = new SystemUI[SERVICES.length];
+@Override
+public void onCreate() {
+HashMap&lt;Class&lt;?&gt;, Object&gt; components = new HashMap&lt;Class&lt;?&gt;, Object&gt;();
+final int N = SERVICES.length;
+for (int i=0; i&lt;N; i++) {
+    // 反射创建实例
+    Class&lt;?&gt; cl = SERVICES[i];
+    Log.d(TAG, &quot;loading: &quot; + cl);
+    try {
+        mServices[i] = (SystemUI)cl.newInstance();
+    } catch (IllegalAccessException ex) {
+        throw new RuntimeException(ex);
+    } catch (InstantiationException ex) {
+        throw new RuntimeException(ex);
+    }
+    mServices[i].mContext = this;
+    mServices[i].mComponents = components;
+    Log.d(TAG, &quot;running: &quot; + mServices[i]);
+    // 启动start()方法
+    mServices[i].start();
+}
+</code></pre></li>
+<li>3.在SystemUIService中创建了SystemBars的实例，并给它的mContext及mComponents赋值，最后调用了它的<code>start()</code>方法，在<code>start()</code>方法中创建一个ServiceMonitor的实例，并将自己的引用传给了ServiceMonitor，最后调用了ServiceMonitor的<code>start()</code>方法。<pre><code>@Override
+public void start() {
+    if (DEBUG) Log.d(TAG, &quot;start&quot;);
+    mServiceMonitor = new ServiceMonitor(TAG, DEBUG,
+            mContext, Settings.Secure.BAR_SERVICE_COMPONENT, this);
+    mServiceMonitor.start();  // will call onNoService if no remote service is found
+}
+</code></pre></li>
+<li>4.在ServiceMonitor的<code>start()</code>方法中，做了最重要的一件事就是启动服务:<code>mHandler.sendEmptyMessage(MSG_START_SERVICE)</code>—-&gt; 导致调用<code>startService()</code><pre><code>private void startService() {
+    mServiceName = getComponentNameFromSetting();
+    if (mDebug) Log.d(mTag, &quot;startService mServiceName=&quot; + mServiceName);
+    if (mServiceName == null) {
+        mBound = false;
+        mCallbacks.onNoService();
+    } else {
+        long delay = mCallbacks.onServiceStartAttempt();
+        mHandler.sendEmptyMessageDelayed(MSG_CONTINUE_START_SERVICE, delay);
+    }
+}
+</code></pre></li>
+<li>5.这其中的mCallbacks就是SystemBars的引用，第一次的时候交会回调它的onNoService()方法，在这个方法中只做了一件事件那就是调用了<code>createStatusBarFromConfig()</code>方法：<pre><code>private void createStatusBarFromConfig() {
+    if (DEBUG) Log.d(TAG, &quot;createStatusBarFromConfig&quot;);
+    // config_statusBarComponent字符串的内容：com.android.systemui.statusbar.phone.PhoneStatusBar
+    final String clsName = mContext.getString(R.string.config_statusBarComponent);
+    if (clsName == null || clsName.length() == 0) {
+        throw andLog(&quot;No status bar component configured&quot;, null);
+    }
+    Class&lt;?&gt; cls = null;
+    try {
+        cls = mContext.getClassLoader().loadClass(clsName);
+    } catch (Throwable t) {
+        throw andLog(&quot;Error loading status bar component: &quot; + clsName, t);
+    }
+    try {
+        mStatusBar = (BaseStatusBar) cls.newInstance();
+    } catch (Throwable t) {
+        throw andLog(&quot;Error creating status bar component: &quot; + clsName, t);
+    }
+    mStatusBar.mContext = mContext;
+    mStatusBar.mComponents = mComponents;
+    mStatusBar.start();
+    if (DEBUG) Log.d(TAG, &quot;started &quot; + mStatusBar.getClass().getSimpleName());
+}
+</code></pre></li>
+<li><p>6.在<code>createStatusBarFromConfig()</code>方法中，<code>R.string.config_statusBarComponent</code>的内容就是com.android.systemui.statusbar.phone.PhoneStatusBar，PhoneStatusBar的全类名的字符串，通过反射创建PhoneStatusBar的实例，并给它的mContext及mComponects赋值，最后调用了它的<code>start()</code>方法。</p>
+</li>
+<li><p>7.到这里，PhoneStatusBar的实例就创建成功了。</p>
+</li>
+</ul>
+<p><strong> PS：之前是逆着找很麻烦，现在顺过去就简单很多了</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/PhoneStatusBar/" rel="tag"># PhoneStatusBar</a>
+          
+            <a href="/tags/SystemUI/" rel="tag"># SystemUI</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/22/IStatusBarService 的AIDL实现与调用/" rel="next" title="IStatusBarService 的AIDL实现与调用">
+                <i class="fa fa-chevron-left"></i> IStatusBarService 的AIDL实现与调用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Shell" />
+          <p class="site-author-name" itemprop="name">Shell</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PhoneStatusBar的实例创建流程"><span class="nav-number">1.</span> <span class="nav-text">PhoneStatusBar的实例创建流程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shell</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
